@@ -15,18 +15,18 @@ import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.Toast;
 
+import java.util.zip.Inflater;
+
 public class ColorPickFragment extends Fragment {
 
     private String[] colors;
     private GridLayout grid;
-
     private OnMessageSendListener mListener;
 
     private View.OnClickListener buttonListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int buttonIndex = grid.indexOfChild(v);
-
         }
     };
 
@@ -56,14 +56,26 @@ public class ColorPickFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment here
 
+        View view = inflater.inflate(R.layout.fragment_color_pick, container, false);
 
+        grid = view.findViewById(R.id.lightGrid);
+        colors = getResources().getStringArray(R.array.colors_array);
         // set the color of each button here
+        for(int i = 0; i < grid.getChildCount(); i++){
+            Button currentButton = (Button) grid.getChildAt(i);
+            currentButton.setBackgroundColor(Color.parseColor(colors[i]));
+        }
 
         // bind the listener to each button
+        for(int i =0; i < grid.getChildCount(); i++) {
+            Button currentButton = (Button) grid.getChildAt(i);
+            currentButton.setOnClickListener(buttonListener);
+        }
 
         for(int i =0; i < grid.getChildCount(); i++){
             Button currentButton = (Button) grid.getChildAt(i);
             currentButton.setOnClickListener(buttonListener);
+
         }
         return null;
     }
